@@ -40,7 +40,7 @@ def kaitou(seikai):
         print("正解です。それでは、具体的に欠損文字を1文字ずつ入力してください")
         for i in range(NUM_OF_ABS_CHARS):
             c = input(f"{i+1}っ目の文字を入力してください：")
-            if c not in seika:
+            if c not in seikai:
                 print("不正解です。またチャレンジしてください")
                 print("-"*50)
                 return 0 #文字解答で不正解
