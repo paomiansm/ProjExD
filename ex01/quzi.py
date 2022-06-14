@@ -3,6 +3,7 @@ import datetime
 st = datetime.datetime.now()
 ed = datetime.datetime.now()
 aa = 0
+bb = 0
 def main():
     shutudai()
     kaito()
