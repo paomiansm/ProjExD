@@ -48,7 +48,7 @@ if __name__ == "__main__":
     entry.grid(row = 0, column= 0, columnspan=4)
 
     r, c = 40, 0
-    for i,num in enumerate(["%","CE","C","Del","1/x","X^2","sqrt(x)","/",7,8,9,"*",4,5,6,"-",1,2,3,"+","+/-",0,".","="]):
+    for i,num in enumerate(["Del","%","C","Del","1/x","X^2","sqrt(x)","/",7,8,9,"*",4,5,6,"-",1,2,3,"+","+/-",0,".","="]):
         button = tk.Button(root,
                     width= 5, 
                     height=1, 
