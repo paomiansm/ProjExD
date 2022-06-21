@@ -5,8 +5,7 @@ import math
 def button_click(event):
     btn = event.widget
     txt = btn["text"]
-    # tkm.showwarning("確認", 
-    #                  f"you clicked on {txt} button.")
+
     if txt == "=":
         keisan = entry.get() 
         result = eval(keisan) 
