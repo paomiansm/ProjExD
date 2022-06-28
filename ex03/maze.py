@@ -16,7 +16,7 @@ def key_down(event):
         if num > 9:
             num = 0
     if key == "k":
-        cx = 1300
+        cx = 1350
         cy = 750
 
 def key_up(event):
