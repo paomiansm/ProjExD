@@ -16,7 +16,7 @@ def key_down(event):
         if num > 9:
             num = 0
     if key == "k":
-        cx = 1350
+        cx = 1300
         cy = 750
 
 def key_up(event):
@@ -24,7 +24,7 @@ def key_up(event):
     key = ""
 
 def main_proc():
-    global cx, cy, mx, my
+    global cx, cy, mx, 
 
     delta = { #キー：押されているキーkey/値:移動幅リスト[x,y]
         ""  :[0,0],
