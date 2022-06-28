@@ -1,12 +1,23 @@
-from operator import concat
 import tkinter as tk
 from tkinter import Canvas
 import maze_maker as mm
+import tkinter.messagebox as tkm
+
 
 
 def key_down(event):
-    global key
+    global key, num,tori,cx,cy
     key = event.keysym
+    if key == "r":
+        num += 1
+        canvas.delete(kya)
+        tori = tk.PhotoImage(file=f"ex03/fig/{str(num)}.png")
+        canvas.create_image(cx, cy, image= tori, tag= "tori")
+        if num > 9:
+            num = 0
+    if key == "k":
+        cx = 1350
+        cy = 750
 
 def key_up(event):
     global key
@@ -31,10 +42,14 @@ def main_proc():
             cx, cy = mx*100+50, my*100+50
     except:
         pass
-
     canvas.coords("tori", cx, cy)
+    if cx == 1350 and cy == 750:
+        tkm.showinfo("こうかとん", "Game Clear")
+        return False
     root.after(100, main_proc)
 if __name__ == "__main__":
+    num = 0
+
     root = tk.Tk()
     root.title("迷えるこうかとん")
 
@@ -43,15 +58,17 @@ if __name__ == "__main__":
     maze_bg = mm.make_maze(15,9)
     mm.show_maze(canvas, maze_bg)
 
-    tori = tk.PhotoImage(file="ex03/fig/5.png")
+    tori = tk.PhotoImage(file=f"ex03/fig/{str(num)}.png")
     mx, my = 1, 1
     cx, cy = mx*100+50, my*100+50
-    canvas.create_image(cx, cy, image= tori, tag= "tori")
+    canvas.create_rectangle(cx-50, cy-50, cx+50, cy+50, fill="blue")
+    canvas.create_rectangle(1300, 700, 1400, 800, fill="red")
+    
+    kya = canvas.create_image(cx, cy, image= tori, tag= "tori")
 
     key = ""
     root.bind("<KeyPress>", key_down)
     root.bind("<KeyRelease>", key_up)
-
     main_proc()
 
     root.mainloop()
