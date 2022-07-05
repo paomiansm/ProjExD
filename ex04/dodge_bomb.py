@@ -16,7 +16,6 @@ def main():
     bgimg_rct = bgimg_sfc.get_rect()
     speed = 1
 
-
 #練習３
     kkimg_sfc = pg.image.load("ex04/fig/6.png")
     kkimg_sfc = pg.transform.rotozoom(kkimg_sfc, 0, 2.0)
