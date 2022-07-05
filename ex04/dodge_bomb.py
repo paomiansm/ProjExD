@@ -15,9 +15,7 @@ def main():
     bgimg_sfc = pg.image.load("ex04/fig/pg_bg.jpg")
     bgimg_rct = bgimg_sfc.get_rect()
     speed = 1
-    #pg.display.update()
 
-    #clock.tick(0.5)
 
 #練習３
     kkimg_sfc = pg.image.load("ex04/fig/6.png")
