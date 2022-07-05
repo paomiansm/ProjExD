@@ -85,9 +85,6 @@ def main():
             kkimg_sfc = pg.transform.rotozoom(kkimg_sfc, 0, 2.0)
 
 
-
-
-
         if kkimg_rct.colliderect(bmimg_rct):
             if key_states[pg.K_SPACE] == True:
                 continue
@@ -108,12 +105,6 @@ def check_bound(rct, scr_rct):
     if rct.top < scr_rct.top or scr_rct.bottom < rct.bottom: tate = -1
 
     return yoko, tate
-
-
-
-
-
-
 
 if __name__ == "__main__":
     pg.init()
