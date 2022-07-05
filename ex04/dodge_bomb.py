@@ -2,10 +2,11 @@ import pygame as pg
 import sys
 import random
 import datetime
+import tkinter.messagebox as tkm
 def main():
     clock = pg.time.Clock()
     font = pg.font.Font(None, 60)
-    
+
 
 #練習１
     pg.display.set_caption("逃げろ！こうかとん")
@@ -13,7 +14,7 @@ def main():
     screen_rct = screen_sfc.get_rect()
     bgimg_sfc = pg.image.load("ex04/fig/pg_bg.jpg")
     bgimg_rct = bgimg_sfc.get_rect()
-
+    speed = 1
     #pg.display.update()
 
     #clock.tick(0.5)
@@ -37,7 +38,11 @@ def main():
 
     while True:
         screen_sfc.blit(bgimg_sfc, bgimg_rct)
-        screen_sfc.blit(kkimg_sfc, kkimg_rct)
+        screen_sfc.blit(kkimg_sfc, kkimg_rct)       
+        日付 = font.render(str(datetime.date.today()), True, (100, 0, 100))
+        時刻 = font.render(datetime.datetime.now().strftime("%H:%M:%S"), True, (0, 0, 100))
+        screen_sfc.blit(日付, [1350, 40])    
+        screen_sfc.blit(時刻, [1370, 80])
 #練習２
         for event in pg.event.get():
             if event.type == pg.QUIT: return
@@ -45,16 +50,16 @@ def main():
 #練習４
         
         key_states = pg.key.get_pressed()
-        if key_states[pg.K_UP] == True: kkimg_rct.centery -= 1
-        if key_states[pg.K_DOWN] == True: kkimg_rct.centery += 1
-        if key_states[pg.K_LEFT] == True: kkimg_rct.centerx -= 1
-        if key_states[pg.K_RIGHT] == True: kkimg_rct.centerx += 1
+        if key_states[pg.K_UP] == True: kkimg_rct.centery -= speed
+        if key_states[pg.K_DOWN] == True: kkimg_rct.centery += speed
+        if key_states[pg.K_LEFT] == True: kkimg_rct.centerx -= speed
+        if key_states[pg.K_RIGHT] == True: kkimg_rct.centerx += speed
 
         if check_bound(kkimg_rct, screen_rct) != (1, 1):
-            if key_states[pg.K_UP] == True: kkimg_rct.centery += 1
-            if key_states[pg.K_DOWN] == True: kkimg_rct.centery -= 1
-            if key_states[pg.K_LEFT] == True: kkimg_rct.centerx += 1
-            if key_states[pg.K_RIGHT] == True: kkimg_rct.centerx -= 1
+            if key_states[pg.K_UP] == True: kkimg_rct.centery += speed
+            if key_states[pg.K_DOWN] == True: kkimg_rct.centery -= speed
+            if key_states[pg.K_LEFT] == True: kkimg_rct.centerx += speed
+            if key_states[pg.K_RIGHT] == True: kkimg_rct.centerx -= speed
 
         screen_sfc.blit(kkimg_sfc,kkimg_rct)
 
@@ -66,7 +71,34 @@ def main():
         vx *= yoko
         vy *= tate
 
-        if kkimg_rct.colliderect(bmimg_rct): return
+        if key_states[pg.K_SPACE] == True:
+            kkimg_sfc = pg.image.load("ex04/fig/3.png")
+            kkimg_sfc = pg.transform.rotozoom(kkimg_sfc, 0, 2.0)
+        else:
+            kkimg_sfc = pg.image.load("ex04/fig/6.png")
+            kkimg_sfc = pg.transform.rotozoom(kkimg_sfc, 0, 2.0)
+
+        if key_states[pg.K_LSHIFT] == True:
+            speed = 2
+        else:
+            speed = 1
+
+        if key_states[pg.K_1] == True:
+            kkimg_sfc = pg.image.load("ex04/fig/2.png")
+            kkimg_sfc = pg.transform.rotozoom(kkimg_sfc, 0, 2.0)
+
+
+
+
+
+        if kkimg_rct.colliderect(bmimg_rct):
+            if key_states[pg.K_SPACE] == True:
+                continue
+            if key_states[pg.K_1] == True:
+                vx *= -1
+                vy *= -1
+            else:
+                return False
 
 
         pg.display.update()
@@ -77,6 +109,7 @@ def check_bound(rct, scr_rct):
     yoko, tate = +1, +1
     if rct.left < scr_rct.left or scr_rct.right < rct.right: yoko = -1
     if rct.top < scr_rct.top or scr_rct.bottom < rct.bottom: tate = -1
+
     return yoko, tate
 
 
@@ -87,7 +120,6 @@ def check_bound(rct, scr_rct):
 
 if __name__ == "__main__":
     pg.init()
-    a = pg.time.get_ticks()
     main()
     pg.quit()
     sys.exit()
