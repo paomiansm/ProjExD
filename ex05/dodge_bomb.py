@@ -3,6 +3,7 @@ import sys
 import random
 import datetime
 import tkinter.messagebox as tkm
+import os
 
 
 class Screen:
@@ -15,7 +16,29 @@ class Screen:
 
     def blit(self):
         self.sfc.blit(self.bgi_sfc, self.bgi_rct)
-            
+class Anemi:
+    def __init__(self, image: str, size: float, xy, vxy):
+        self.sfc = pg.image.load(image)
+        self.sfc = pg.transform.rotozoom(self.sfc, 0, size)
+        self.rct = self.sfc.get_rect()
+        self.rct.center = xy
+        self.vx, self.vy = vxy
+    
+    def blit(self, scr: Screen):
+        scr.sfc.blit(self.sfc, self.rct)
+
+    def update(self, scr: Screen):
+        self.rct.move_ip(self.vx, self.vy)
+        # screen_sfc.blit(bmimg_sfc, bmimg_rct)
+
+        yoko, tate = check_bound(self.rct, scr.rct)
+        self.vx *= yoko
+        self.vy *= tate
+
+        scr.sfc.blit(self.sfc, self.rct)
+        self.blit(scr)
+
+    
 
 class Bird:
     def __init__(self, image: str, size: float, xy):
@@ -38,12 +61,50 @@ class Bird:
             self.rct.centerx -= 1
         if key_states[pg.K_RIGHT]:
             self.rct.centerx += 1
+
+            
         if check_bound(self.rct, scr.rct) != (1, 1):
             if key_states[pg.K_UP] == True: self.rct.centery += 1
             if key_states[pg.K_DOWN] == True: self.rct.centery -= 1
             if key_states[pg.K_LEFT] == True: self.rct.centerx += 1
             if key_states[pg.K_RIGHT] == True: self.rct.centerx -= 1
+
         self.blit(scr)
+class Shot:
+    a = 1
+    def __init__(self, scr :Screen):
+        key_states = pg.key.get_pressed()
+        if key_states[pg.K_SPACE]:
+            Bomb((255,0,0), 10, (+1, +1), scr)
+
+class Time:
+    def __init__(self, scr: Screen):
+        font = pg.font.Font(None, 60)
+        日付 = font.render(str(datetime.date.today()), True, (100, 0, 100))
+        時刻 = font.render(datetime.datetime.now().strftime("%H:%M:%S"), True, (0, 0, 100))
+        scr.blit(日付, [1350, 40])    
+        scr.blit(時刻, [1370, 80])
+
+
+class Score(pg.sprite.Sprite):
+    """to keep track of the score."""
+
+    def __init__(self,scor):
+        pg.sprite.Sprite.__init__(self)
+        self.font = pg.font.Font(None, 20)
+        self.font.set_italic(1)
+        self.color = "white"
+        self.lastscore = -1
+        self.update()
+        self.rect = self.image.get_rect().move(10, 450)
+
+    def update(self):
+        """We only update the score in update() when it has changed."""
+        if self.scor != self.lastscore:
+            self.lastscore = 2
+            msg = "Score: %d" % 3
+            self.image = self.font.render(msg, 0, self.color)
+
 
 
 
@@ -74,10 +135,12 @@ class Bomb:
 
 def main():
     clock = pg.time.Clock()
+    font = pg.font.Font(None, 60)
 
     scr = Screen("逃げろ！こうかとん", (1600, 900), "ex04/fig/pg_bg.jpg")
 
     kkt = Bird("ex05/fig/6.png",2.0,(900,400))
+    bbt = Anemi("ex05/data/alien1.png",2.0,(700,400),(+1,+1))
 
 
     bkd = Bomb((255,0,0), 10, (+1, +1), scr)
@@ -88,6 +151,14 @@ def main():
             if event.type == pg.QUIT: return
 
         kkt.update(scr)
+        bbt.update(scr)
+        日付 = font.render(str(datetime.date.today()), True, (100, 0, 100))
+        時刻 = font.render(datetime.datetime.now().strftime("%H:%M:%S"), True, (0, 0, 100))
+        scora = font.render("Scora:0", True, (255, 0, 0))
+        scr.sfc.blit(日付, [1350, 40])    
+        scr.sfc.blit(時刻, [1370, 80])
+        scr.sfc.blit(scora, [20, 50])
+
 
         bkd.update(scr)
         if kkt.rct.colliderect(bkd.rct):
