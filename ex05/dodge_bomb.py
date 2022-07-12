@@ -29,7 +29,6 @@ class Anemi:
 
     def update(self, scr: Screen):
         self.rct.move_ip(self.vx, self.vy)
-        # screen_sfc.blit(bmimg_sfc, bmimg_rct)
 
         yoko, tate = check_bound(self.rct, scr.rct)
         self.vx *= yoko
