@@ -132,13 +132,9 @@ class Bomb:
 def main():
     clock = pg.time.Clock()
     font = pg.font.Font(None, 60)
-
     scr = Screen("逃げろ！こうかとん", (1600, 900), "ex04/fig/pg_bg.jpg")
-
     kkt = Bird("ex05/fig/6.png",2.0,(900,400))
     bbt = Anemi("ex05/data/alien1.png",2.0,(700,400),(+1,+1))
-
-
     bkd = Bomb((255,0,0), 10, (+1, +1), scr)
 
     while True:
