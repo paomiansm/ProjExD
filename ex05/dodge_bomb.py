@@ -87,8 +87,6 @@ class Time:
 
 
 class Score(pg.sprite.Sprite):
-    """to keep track of the score."""
-
     def __init__(self,scor):
         pg.sprite.Sprite.__init__(self)
         self.font = pg.font.Font(None, 20)
@@ -99,7 +97,6 @@ class Score(pg.sprite.Sprite):
         self.rect = self.image.get_rect().move(10, 450)
 
     def update(self):
-        """We only update the score in update() when it has changed."""
         if self.scor != self.lastscore:
             self.lastscore = 2
             msg = "Score: %d" % 3
